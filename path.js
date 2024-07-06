@@ -1,0 +1,101 @@
+const normalizePath = (path) => {
+  if (path.length === 0) {
+    return "."
+  }
+  let parts = splitPath(path)
+  parts = parts.reduce(reducer, [])
+  return joinPath(...parts)
+}
+
+const resolvePath = (...paths) => {
+  let result = ""
+  for (const path of paths) {
+    if (path.startsWith("/")) {
+      result = path
+    } else {
+      result = normalizePath(joinPath(result, path))
+    }
+  }
+  return result
+}
+
+const joinPath = (...parts) => {
+  if (parts.length === 0) return ""
+  let path = parts.join("/")
+  // Replace consecutive '/'
+  path = path.replace(/\/{2,}/g, "/")
+  return path
+}
+
+const splitPath = (path) => {
+  console.log(path)
+  if (path.length === 0) return []
+  if (path === "/") return ["/"]
+  let parts = path.split("/")
+  if (parts[parts.length - 1] === "") {
+    parts.pop()
+  }
+  if (path[0] === "/") {
+    parts[0] = "/"
+  } else {
+    if (parts[0] !== ".") {
+      parts.unshift(".")
+    }
+  }
+  return parts
+}
+
+const dirname = (path) => {
+  const last = path.lastIndexOf("/")
+  if (last === -1) throw new Error(`Cannot get dirname of "${path}"`)
+  if (last === 0) return "/"
+  return path.slice(0, last)
+}
+
+const basename = (path) => {
+  if (path === "/") throw new Error(`Cannot get basename of "${path}"`)
+  const last = path.lastIndexOf("/")
+  if (last === -1) return path
+  return path.slice(last + 1)
+}
+
+const reducer = (ancestors, current) => {
+  if (ancestors.length === 0) {
+    ancestors.push(current)
+    return ancestors
+  }
+
+  if (current === ".") return ancestors
+
+  if (current === "..") {
+    if (ancestors.length === 1) {
+      if (ancestors[0] === "/") {
+        throw new Error(
+          "Unable to normalize path - traverses above root directory"
+        )
+      }
+      if (ancestors[0] === ".") {
+        ancestors.push(current)
+        return ancestors
+      }
+    }
+    if (ancestors.length > 1 && ancestors[ancestors.length - 1] !== "..") {
+      ancestors.pop()
+    } else {
+      ancestors.push("..")
+    }
+    return ancestors
+  }
+
+  ancestors.push(current)
+  return ancestors
+}
+
+export {
+  joinPath as join,
+  normalizePath as normalize,
+  splitPath as split,
+  basename,
+  dirname,
+  resolvePath as resolve,
+}
