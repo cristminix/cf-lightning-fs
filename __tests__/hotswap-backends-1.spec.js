@@ -1,16 +1,16 @@
-import { env ,createExecutionContext} from "cloudflare:test";
+import { env} from "cloudflare:test";
 import { describe, expect, it } from "vitest"
 
 import {Store} as idb from "../../idb-keyval"
 
 import FS from "../index.js";
 
-Store.setKVStore(env.KV_STORE)
+Store.setKVStore(env.IDB_KEYVAL)
 
 // idb.Store.createInstance('test','test-kv')
 
-const c = createExecutionContext()
-Store.setCtx(c)
+// const c = createExecutionContext()
+// Store.setCtx(c)
 const fs = new FS();
 const pfs = fs.promises;
 

@@ -9,7 +9,7 @@ export class Store {
   static setCtx(c){
     Store.CTX=c
     if(c){
-      console.log(c.env.IDB_KEYVAL)
+      // console.log(c.env.IDB_KEYVAL)
       Store.KV_STORE = c.env.IDB_KEYVAL
     }
   }
@@ -26,6 +26,8 @@ export class Store {
     this._init();
   }
   getDb() {
+    if(Store.KV_STORE) return Store.KV_STORE 
+
     return Store.CTX.env[Store.CTX.env.KV_STORE];
   }
   async keys(all=false) {
@@ -104,7 +106,7 @@ export async function get(key, store = getDefaultStore()) {
   let raw
   try{
     raw = await store.get(key);
-    console.log(raw)
+    // console.log(raw)
   }catch(e){
     console.error(`idb.Store.get failed,key:${key}`)
   }
@@ -120,7 +122,7 @@ export async function get(key, store = getDefaultStore()) {
       value = realValue.value
     else value = realValue
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     // value = null;
   }
   return value;
@@ -138,7 +140,7 @@ export async function set(key, value, store = getDefaultStore()) {
     value:null
   }
   try{
-    console.log(typeof value,{value})
+    // console.log(typeof value,{value})
     if(ArrayBuffer.isView(value)){
       console.log(`isView:true`)
       realValue.value = Array.from(value)
