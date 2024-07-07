@@ -1,6 +1,6 @@
 import DefaultBackend from "./DefaultBackend.js"
-import Stat from "./Stat.js"
-import * as path from "./path.js"
+import Stat from "./Stat"
+import path from "./path"
 
 const cleanParamsFilepathOpts = (filepath, opts, ...rest) => {
   // normalize paths

@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest"
+
 import FS from "../index.js";
 
 const fs = new FS();

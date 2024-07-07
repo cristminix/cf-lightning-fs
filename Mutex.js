@@ -1,4 +1,4 @@
-import { Store, update, close } from "@isomorphic-git/idb-keyval"
+import { Store, update, close } from "../idb-keyval"
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 

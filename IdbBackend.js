@@ -1,4 +1,4 @@
-import * as idb from "@isomorphic-git/idb-keyval"
+import * as idb from "../idb-keyval"
 
 export default class IdbBackend {
   constructor(dbname, storename) {
@@ -17,6 +17,7 @@ export default class IdbBackend {
 
   readFile(inode) {
     return idb.get(inode, this._store)
+   
   }
 
   writeFile(inode, data) {

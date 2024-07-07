@@ -1,3 +1,4 @@
+
 import { encode, decode } from "isomorphic-textencoder"
 import debounce from "just-debounce-it"
 
@@ -109,6 +110,8 @@ export default class DefaultBackend {
     try {
       stat = this._cache.stat(filepath)
       data = await this._idb.readFile(stat.ino)
+      data = this.arrayToArrayBuffer(data)
+
     } catch (e) {
       if (!this._urlauto) throw e
     }
@@ -130,13 +133,22 @@ export default class DefaultBackend {
       if (encoding === "utf8") {
         data = decode(data)
       } else {
+        // if(typeof data !== 'string')
         data.toString = () => decode(data)
       }
     }
     if (!stat) throw new ENOENT(filepath)
     return data
   }
-
+  arrayToArrayBuffer( array ) {
+    var length = array.length;
+    var buffer = new ArrayBuffer( length  );
+    var view = new Uint8Array(buffer);
+    for ( var i = 0; i < length; i++) {
+        view[i] = array[i];
+    }
+    return buffer;
+}
   async writeFile(filepath, data, opts) {
     const { mode, encoding = "utf8" } = opts
     if (typeof data === "string") {

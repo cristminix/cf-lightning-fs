@@ -1,4 +1,4 @@
-module.exports = `.git	777
+const treeText = `.git	777
 	hooks	777
 	info	777
 	objects	777
@@ -1767,3 +1767,5 @@ rollup.config.js	666	804	1545535032598
 tsconfig.json	666	581	1545535032598
 webpack.config.js	666	1730	1545535032599
 `
+
+export default treeText

@@ -28,7 +28,6 @@ const joinPath = (...parts) => {
 }
 
 const splitPath = (path) => {
-  console.log(path)
   if (path.length === 0) return []
   if (path === "/") return ["/"]
   let parts = path.split("/")
@@ -91,11 +90,11 @@ const reducer = (ancestors, current) => {
   return ancestors
 }
 
-export {
-  joinPath as join,
-  normalizePath as normalize,
-  splitPath as split,
+export default {
+  join: joinPath,
+  normalize: normalizePath,
+  split: splitPath,
   basename,
   dirname,
-  resolvePath as resolve,
+  resolve: resolvePath,
 }
